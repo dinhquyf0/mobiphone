@@ -305,6 +305,10 @@ color: #232020;
     padding: calc(24rem/16);
     margin-top: 20px;
 }
+
+.question-container[show = 'false'] {
+    display: none;
+}
 .question-q {
     display: flex;
     flex-direction: row-reverse;

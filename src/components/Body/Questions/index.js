@@ -78,9 +78,9 @@ const Question = (ques,ans) => {
     const [hiddenAns, setHiddenAns] = useState(true);
     const showAns = () => {
         setHiddenAns(!hiddenAns)
-    }   
+    }
     return(
-    <div className='question-container' id='questions'>
+    <div className='question-container' id='questions' show = {ques !== undefined ? 'true' : 'false' }>
         <div className='question-q'>
             <input alt='show' onClick={showAns} type={'image'} src={button} style={{width: '16px', height: '9px', margin: 'auto 0', marginLeft: '1rem'}}></input>
             <p onClick={showAns} >{ques}</p>
@@ -114,13 +114,11 @@ const Questions = () => {
         setQuestionShowing(getQuestions(page))  
     }
 
-    console.log(questionShowing);
-
     return (
         <div className='body-question'>
                 <h1>Câu hỏi thường gặp</h1>
                 <div>
-                    {questionShowing.map(e => Question(e.questions,e.answer))}
+                    {questionShowing.map(e => Question(e.questions,e.answer) )}
                 </div>
                 
                 <div className='questions-navigate' style={{display: 'flex', justifyContent: 'center', marginTop: '2rem'}}>
@@ -139,7 +137,12 @@ const Questions = () => {
     for(let i = start; i<=end; i++) {
         q.push(questions[i]);
     }
-    console.log({q,start, end});
+    if (q.length < maxQuestionPerPage) {
+        let remain = maxQuestionPerPage - q.length;
+        for (var j = 0; j < remain; j++) {
+            q.push({questions: undefined, answer: undefined})
+        }
+    }
     return q;
 }
 
