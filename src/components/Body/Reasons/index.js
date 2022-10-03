@@ -38,8 +38,8 @@ const Reasons = ({data}) => {
           >
           </button>
           <div className="body-reasons-list">
-            {reasons.map((e) => (
-              <Reason title={e.description} content={e.content} icon={e.icon} />
+            {reasons.map((e,i) => (
+              <Reason  key={i} title={e.description} content={e.content} icon={e.icon} />
             ))}
           </div>
           <button

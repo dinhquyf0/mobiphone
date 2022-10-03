@@ -58,7 +58,7 @@ const Questions = ({data}) => {
   return (
   <div className="body-question">
       <h1>Câu hỏi thường gặp</h1>
-      {questionShowing.map((e) => (<Question ques={e.question} ans={e.answer}/>))}
+      {questionShowing.map((e,i) => (<Question  key={i} ques={e.question} ans={e.answer}/>))}
       <div  className="questions-navigate"  
       >
         <Pagination

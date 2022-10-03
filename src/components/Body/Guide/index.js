@@ -40,6 +40,7 @@ const showSlide = (n) => {
       dots[i].className = dots[i].className.replace(" active", "");
     }
     slides[slideIndex - 1].style.display = "block";
+    console.log(slides[slideIndex - 1].style)
     dots[slideIndex - 1].className += " active";
   // }
 };
@@ -55,7 +56,8 @@ const currentSlide = (n) => {
 
 //  Slideshow component
 const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
-  console.log(guideSteps);
+  console.log('guideSteps', guideSteps)
+  // console.log(guideSteps);
     useEffect(()=>{
       currentSlide(1)
     }, [guideSteps])
@@ -69,8 +71,7 @@ const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
     setStepChoosed(slideIndex)
   }
   
-  const Slide = ({img}) => {
-    
+  const Slide = ({key, img}) => {
     return (
       <div className="slide fade" >
       <img alt="guide" src={img} style={{ width: "100%" }}></img>
@@ -96,12 +97,12 @@ const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
       </div>
     <div className="slide-show">
       <div className="slideshow-container">
-        {guideSteps.map((e)=> <Slide img = {e.image} />)}
+        {guideSteps.map((e,i)=> <Slide key={i} img = {e.image} />)}
       </div>
       <br></br>
 
       <div style={{ textAlign: "center" }}>
-        {guideSteps.map((_, i) => <Dot i={i}/>)}
+        {guideSteps.map((_, i) => <Dot key={i} i={i}/>)}
       </div>
     </div>
       <div className="next" onClick={()=>handleClickPreNext(1)}>
@@ -127,12 +128,17 @@ const Guide = ({data}) => {
   const [stepChoosed, setStepChoosed] = useState(1);
   const [os, setOs] = useState('Android');
 
-
   // reset step choosed when switch os
   useEffect(() => {
     setStepChoosed(1);
   }, [os]);
   
+  setTimeout(() => {
+    let dots = document.querySelectorAll(".dot")
+    let slides = document.querySelectorAll(".slide")
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+  }, 100)
   const handleOSChange = (os) => {
     if(os === 'Android') setGuideSteps(guides.Android);
     else setGuideSteps(guides.IOS);
@@ -164,7 +170,7 @@ const Guide = ({data}) => {
               </div>
             </div>
             <div>
-            {guideSteps.map((e,i) => <Step i ={i+1} content = {e.title} stepChoosed = {stepChoosed}   setStepChoosed = {setStepChoosed}/>) }
+            {guideSteps.map((e,i) => <Step  key={i} i ={i+1} content = {e.title} stepChoosed = {stepChoosed}   setStepChoosed = {setStepChoosed}/>) }
             </div>
           </div>
           <div className="guide-steps-img">
