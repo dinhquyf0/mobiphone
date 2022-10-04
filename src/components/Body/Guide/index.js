@@ -40,7 +40,6 @@ const showSlide = (n) => {
       dots[i].className = dots[i].className.replace(" active", "");
     }
     slides[slideIndex - 1].style.display = "block";
-    console.log(slides[slideIndex - 1].style)
     dots[slideIndex - 1].className += " active";
   // }
 };
@@ -56,8 +55,7 @@ const currentSlide = (n) => {
 
 //  Slideshow component
 const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
-  console.log('guideSteps', guideSteps)
-  // console.log(guideSteps);
+
     useEffect(()=>{
       currentSlide(1)
     }, [guideSteps])
@@ -71,7 +69,8 @@ const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
     setStepChoosed(slideIndex)
   }
   
-  const Slide = ({key, img}) => {
+  const Slide = ({img}) => {
+    
     return (
       <div className="slide fade" >
       <img alt="guide" src={img} style={{ width: "100%" }}></img>
@@ -97,12 +96,12 @@ const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
       </div>
     <div className="slide-show">
       <div className="slideshow-container">
-        {guideSteps.map((e,i)=> <Slide key={i} img = {e.image} />)}
+        {guideSteps.map((e)=> <Slide img = {e.image} />)}
       </div>
       <br></br>
 
       <div style={{ textAlign: "center" }}>
-        {guideSteps.map((_, i) => <Dot key={i} i={i}/>)}
+        {guideSteps.map((_, i) => <Dot i={i}/>)}
       </div>
     </div>
       <div className="next" onClick={()=>handleClickPreNext(1)}>
@@ -119,26 +118,25 @@ const SlideShow = ({stepChoosed, setStepChoosed, guideSteps}) => {
 
 // Entry Guide start
 const Guide = ({data}) => {
-
   const guides = {
     IOS: [...data["1"]],
     Android: [...data["2"]]
   }
-  const [guideSteps, setGuideSteps] = useState([...guides.Android]); 
-  const [stepChoosed, setStepChoosed] = useState(1);
-  const [os, setOs] = useState('Android');
+  const [guideSteps, setGuideSteps] = useState([]); 
+  const [stepChoosed, setStepChoosed] = useState(0);
+  const [os, setOs] = useState('');
+
+  useEffect(() => {
+    setGuideSteps([...guides.Android])
+    setStepChoosed(1)
+    setOs('Android')
+  }, [data]);
 
   // reset step choosed when switch os
   useEffect(() => {
     setStepChoosed(1);
   }, [os]);
   
-  setTimeout(() => {
-    let dots = document.querySelectorAll(".dot")
-    let slides = document.querySelectorAll(".slide")
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-  }, 100)
   const handleOSChange = (os) => {
     if(os === 'Android') setGuideSteps(guides.Android);
     else setGuideSteps(guides.IOS);
@@ -146,7 +144,7 @@ const Guide = ({data}) => {
   }
 
   return (
-    <div className="body-guide" id="guide">
+ stepChoosed &&   <div className="body-guide" id="guide">
       <div className="body-guide-container">
         <div className="guide-title">
           <h1>Hướng dẫn kích hoạt eSIM</h1>
@@ -170,7 +168,7 @@ const Guide = ({data}) => {
               </div>
             </div>
             <div>
-            {guideSteps.map((e,i) => <Step  key={i} i ={i+1} content = {e.title} stepChoosed = {stepChoosed}   setStepChoosed = {setStepChoosed}/>) }
+            {guideSteps.map((e,i) => <Step i ={i+1} content = {e.title} stepChoosed = {stepChoosed}   setStepChoosed = {setStepChoosed}/>) }
             </div>
           </div>
           <div className="guide-steps-img">

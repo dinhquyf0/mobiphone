@@ -17,9 +17,10 @@ const Reasons = ({data}) => {
           <img alt="icon" src={icon}></img>
         </div>
         <div className="reason-content">
-          <div className="reason-content-title">{parse(title)}</div>
+          {/* <div className="reason-content-title">{parse(title)}</div> */}
           {/* <hr></hr>
           <p className="reason-content-main">{content}</p> */}
+          {parse(title)}
         </div>
       </div>
     );
